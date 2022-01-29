@@ -128,11 +128,17 @@ class BMP388
 		void compute_alt();
 		void compute_alt_fast();
 
-		float get_temp() { return temp; };
-		float get_pres() { return pres; };
 		float get_alt() { return alt; };
 
+		float get_temp() { return temp; };
+		float get_pres() { return pres; };
+
+		uint32_t get_temp_uncomp() { return temp_uncomp; };
+		uint32_t get_pres_uncomp() { return pres_uncomp; };
+
 	private:
+
+		uint32_t temp_uncomp, pres_uncomp;
 
 		float temp, pres, alt;
 

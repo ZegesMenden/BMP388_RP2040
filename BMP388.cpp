@@ -114,6 +114,31 @@ void BMP388::read_calib_data() {
 
 }
 
+void BMP388::read_raw() {
+    
+    uint8_t buf[3];
+
+    read_bytes(&i2c, addr, DATA_PRES_XLSB, *buf, 3);
+
+    pres_uncomp = (buf[2] << 16) | (buf[1] << 8) | buf[0];
+
+    read_bytes(&i2c, addr, DATA_TEMP_XLSB, *buf, 3);
+
+    temp_uncomp = (buf[2] << 16) | (buf[1] << 8) | buf[0];
+    
+}
+
+void BMP388::read() {
+
+    // read the raw data
+    read_raw();
+
+    // calculate the compensated data
+    compensate_temp(temp_uncomp);
+    compensate_pres(pres_uncomp);
+
+}
+
 void BMP388::compensate_temp(uint32_t temp_uncomp) {
     float partial_1, partial_2;
 
